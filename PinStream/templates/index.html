@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pinterest Video Downloader - Professional Tool</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        pinterest: '#E60023',
+                        'pinterest-dark': '#ad081b',
+                        'pinterest-light': '#f7f3f3',
+                        'brand-primary': '#6366f1',
+                        'brand-secondary': '#8b5cf6',
+                        'accent': '#10b981'
+                    },
+                    animation: {
+                        'fade-in-up': 'fadeInUp 0.6s ease-out',
+                        'fade-in': 'fadeIn 0.4s ease-out',
+                        'bounce-gentle': 'bounceGentle 2s infinite',
+                        'pulse-gentle': 'pulseGentle 2s infinite'
+                    },
+                    fontFamily: {
+                        'display': ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'xl-soft': '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
+                        'inner-soft': 'inset 0 2px 4px 0 rgba(0, 0, 0, 0.06)'
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 min-h-screen font-display">
+    <!-- Header -->
+    <header class="relative overflow-hidden">
+        <!-- Background gradient -->
+        <div class="absolute inset-0 bg-gradient-to-r from-brand-primary via-brand-secondary to-pinterest opacity-10"></div>
+        <div class="absolute inset-0 bg-white/80 backdrop-blur-sm"></div>
+        
+        <!-- Content -->
+        <div class="relative max-w-6xl mx-auto px-6 py-8">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <div class="relative">
+                        <div class="w-14 h-14 bg-gradient-to-br from-pinterest to-pinterest-dark rounded-2xl flex items-center justify-center shadow-lg animate-pulse-gentle">
+                            <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 0C5.373 0 0 5.372 0 12s5.373 12 12 12c6.628 0 12-5.372 12-12S18.628 0 12 0zm0 19c-.721 0-1.418-.109-2.073-.312.286-.465.713-1.227.87-1.835l.437-1.664c.229.436.895.804 1.604.804 2.111 0 3.633-1.941 3.633-4.354 0-2.312-1.888-4.042-4.316-4.042-3.021 0-4.625 2.003-4.625 4.137 0 .867.313 1.634.98 1.92.102.043.156.024.18-.067.018-.07.111-.448.145-.623.047-.181.029-.245-.102-.404-.359-.435-.588-1.095-.588-1.818 0-1.754 1.296-3.451 3.503-3.451 1.913 0 3.227 1.296 3.227 3.153 0 2.045-1.01 3.458-2.289 3.458-.687 0-1.2-.571-.937-1.269.314-.833.922-1.732.922-2.333 0-.538-.285-.986-.878-.986-.698 0-1.259.725-1.259 1.696 0 .618.209 1.035.209 1.035s-.706 3.017-.829 3.543c-.142.607-.098 1.407-.051 1.976-2.18-.953-3.695-3.127-3.695-5.68 0-3.427 2.573-6 6-6s6 2.573 6 6-2.573 6-6 6z"/>
+                            </svg>
+                        </div>
+                        <div class="absolute -top-1 -right-1 w-5 h-5 bg-accent rounded-full flex items-center justify-center">
+                            <svg class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div>
+                        <h1 class="text-3xl font-bold bg-gradient-to-r from-gray-900 via-brand-primary to-pinterest bg-clip-text text-transparent">
+                            Pinterest Video Downloader
+                        </h1>
+                        <p class="text-gray-600 text-base font-medium mt-1">
+                            Professional tool for ethical video downloads from Pinterest
+                        </p>
+                        <div class="flex items-center space-x-4 mt-2">
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-accent/10 text-accent">
+                                <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                </svg>
+                                Secure & Legal
+                            </span>
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-brand-primary/10 text-brand-primary">
+                                <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"/>
+                                </svg>
+                                User Friendly
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="hidden lg:flex items-center space-x-3">
+                    <div class="text-right">
+                        <div class="text-sm font-semibold text-gray-700">Free Tool</div>
+                        <div class="text-xs text-gray-500">No registration required</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-5xl mx-auto px-6 py-10">
+        <!-- URL Input Section -->
+        <div class="relative">
+            <!-- Background decoration -->
+            <div class="absolute inset-0 bg-gradient-to-r from-brand-primary/5 to-pinterest/5 rounded-3xl transform rotate-1"></div>
+            <div class="relative bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl-soft border border-white/50 p-8 mb-10 animate-fade-in-up">
+                <div class="text-center mb-6">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-2">
+                        Paste Your Pinterest URL
+                    </h2>
+                    <p class="text-gray-600">
+                        Enter any Pinterest pin URL to extract and download videos legally
+                    </p>
+                </div>
+                
+                <div class="space-y-6">
+                    <div class="relative">
+                        <label for="pinterest-url" class="block text-sm font-semibold text-gray-700 mb-3 flex items-center">
+                            <svg class="w-4 h-4 mr-2 text-pinterest" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M12.586 4.586a2 2 0 112.828 2.828l-3 3a2 2 0 01-2.828 0 1 1 0 00-1.414 1.414 4 4 0 005.656 0l3-3a4 4 0 00-5.656-5.656l-1.5 1.5a1 1 0 101.414 1.414l1.5-1.5zm-5 5a2 2 0 012.828 0 1 1 0 101.414-1.414 4 4 0 00-5.656 0l-3 3a4 4 0 105.656 5.656l1.5-1.5a1 1 0 10-1.414-1.414l-1.5 1.5a2 2 0 11-2.828-2.828l3-3z" clip-rule="evenodd"/>
+                            </svg>
+                            Pinterest Pin URL
+                        </label>
+                        <div class="relative flex space-x-4">
+                            <div class="relative flex-1">
+                                <input 
+                                    type="url" 
+                                    id="pinterest-url" 
+                                    placeholder="https://pinterest.com/pin/123456789... or pin.it/abc123"
+                                    class="w-full px-6 py-4 bg-white border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-brand-primary/20 focus:border-brand-primary transition-all duration-300 outline-none text-gray-700 font-medium shadow-inner-soft"
+                                    autocomplete="off"
+                                >
+                                <div class="absolute inset-y-0 right-4 flex items-center pointer-events-none">
+                                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            <button 
+                                id="check-btn" 
+                                class="px-8 py-4 bg-gradient-to-r from-brand-primary to-brand-secondary text-white rounded-xl hover:from-brand-primary/90 hover:to-brand-secondary/90 transition-all duration-300 font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center space-x-2"
+                            >
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                                </svg>
+                                <span>Analyze</span>
+                            </button>
+                        </div>
+                        <div class="mt-4 flex flex-wrap gap-2">
+                            <p class="text-sm text-gray-500 flex items-center">
+                                <svg class="w-4 h-4 mr-1 text-accent" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                </svg>
+                                Supports all Pinterest domains
+                            </p>
+                            <span class="text-gray-300">•</span>
+                            <p class="text-sm text-gray-500 flex items-center">
+                                <svg class="w-4 h-4 mr-1 text-accent" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/>
+                                </svg>
+                                Privacy protected
+                            </p>
+                            <span class="text-gray-300">•</span>
+                            <p class="text-sm text-gray-500 flex items-center">
+                                <svg class="w-4 h-4 mr-1 text-accent" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"/>
+                                </svg>
+                                No server storage
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading State -->
+        <div id="loading" class="hidden animate-fade-in">
+            <div class="bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl-soft border border-white/50 p-8 mb-10">
+                <div class="flex flex-col items-center justify-center space-y-4">
+                    <div class="relative">
+                        <div class="w-16 h-16 border-4 border-gray-200 rounded-full"></div>
+                        <div class="w-16 h-16 border-4 border-brand-primary border-t-transparent rounded-full animate-spin absolute top-0 left-0"></div>
+                    </div>
+                    <div class="text-center">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-2">Analyzing Pinterest Pin</h3>
+                        <p class="text-gray-600">Extracting metadata and checking for downloadable content...</p>
+                        <div class="flex items-center justify-center space-x-1 mt-3">
+                            <div class="w-2 h-2 bg-brand-primary rounded-full animate-bounce"></div>
+                            <div class="w-2 h-2 bg-brand-primary rounded-full animate-bounce" style="animation-delay: 0.1s"></div>
+                            <div class="w-2 h-2 bg-brand-primary rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Error Message -->
+        <div id="error-message" class="hidden animate-fade-in">
+            <div class="bg-red-50/90 backdrop-blur-sm rounded-2xl shadow-xl-soft border border-red-200/50 p-6 mb-10">
+                <div class="flex items-start space-x-4">
+                    <div class="flex-shrink-0">
+                        <div class="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center">
+                            <svg class="w-5 h-5 text-red-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="text-lg font-semibold text-red-900 mb-2">Unable to Process URL</h3>
+                        <p id="error-text" class="text-red-700 mb-3"></p>
+                        <div class="text-sm text-red-600">
+                            <p class="font-medium mb-1">Please ensure:</p>
+                            <ul class="list-disc list-inside space-y-1 text-red-600/80">
+                                <li>The URL is from Pinterest (pinterest.com or pin.it)</li>
+                                <li>The URL points to a specific pin</li>
+                                <li>The pin is publicly accessible</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Preview Card -->
+        <div id="preview-card" class="hidden animate-fade-in-up">
+            <div class="bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl-soft border border-white/50 overflow-hidden mb-10">
+                <div class="lg:flex">
+                    <div class="lg:w-2/5 relative">
+                        <img id="preview-image" src="" alt="Pin preview" class="w-full h-64 lg:h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                        <div class="absolute bottom-4 left-4 right-4">
+                            <div class="flex items-center space-x-2">
+                                <div class="w-2 h-2 bg-white rounded-full animate-pulse"></div>
+                                <span class="text-white text-sm font-medium">Live Preview</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-8 lg:w-3/5">
+                        <div class="flex items-start justify-between mb-4">
+                            <h3 id="preview-title" class="text-2xl font-bold text-gray-900 leading-tight"></h3>
+                            <div class="ml-4 flex-shrink-0">
+                                <div class="w-3 h-3 bg-accent rounded-full animate-pulse"></div>
+                            </div>
+                        </div>
+                        <p id="preview-description" class="text-gray-600 text-base mb-6 leading-relaxed line-clamp-3"></p>
+                        <div id="preview-author" class="flex items-center text-sm text-gray-500 mb-6">
+                            <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                    
+                        <!-- Download Section -->
+                        <div id="download-section" class="hidden">
+                            <div class="bg-gradient-to-r from-accent/10 to-green-50 border-2 border-accent/20 rounded-xl p-6 mb-6">
+                                <div class="flex items-start space-x-4">
+                                    <div class="flex-shrink-0">
+                                        <div class="w-12 h-12 bg-accent rounded-full flex items-center justify-center">
+                                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10"/>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                    <div class="flex-1">
+                                        <h4 class="text-lg font-bold text-accent mb-2">🎉 Video Available for Download!</h4>
+                                        <p class="text-gray-700 mb-3">Great news! This pin contains a downloadable video file that we can extract for you.</p>
+                                        <div class="flex items-center space-x-2 text-sm text-gray-600">
+                                            <svg class="w-4 h-4 text-accent" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                            </svg>
+                                            <span>Direct streaming • No server storage • High quality</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Ethical Consent -->
+                            <div class="bg-orange-50 border border-orange-200 rounded-xl p-6 mb-6">
+                                <h5 class="font-semibold text-orange-900 mb-3 flex items-center">
+                                    <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                    </svg>
+                                    Legal Consent Required
+                                </h5>
+                                <label class="flex items-start space-x-3 cursor-pointer group">
+                                    <input type="checkbox" id="consent-checkbox" class="mt-1 h-5 w-5 text-accent focus:ring-accent/30 border-gray-300 rounded transition-all">
+                                    <div class="flex-1">
+                                        <span class="text-gray-800 font-medium group-hover:text-gray-900 transition-colors">
+                                            I confirm that I have the legal right and permission to download this video for personal use only, and I respect the creator's intellectual property rights.
+                                        </span>
+                                        <p class="text-sm text-gray-600 mt-1">
+                                            By checking this box, you agree to use downloaded content ethically and in compliance with copyright laws.
+                                        </p>
+                                    </div>
+                                </label>
+                            </div>
+                            
+                            <button 
+                                id="download-btn" 
+                                class="w-full px-8 py-4 bg-gradient-to-r from-accent to-green-600 text-white rounded-xl hover:from-accent/90 hover:to-green-600/90 transition-all duration-300 font-bold text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center space-x-3"
+                                disabled
+                            >
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                                </svg>
+                                <span>Download Video Now</span>
+                            </button>
+                        </div>
+                        
+                        <!-- Fallback Section -->
+                        <div id="fallback-section" class="hidden">
+                            <div class="bg-gradient-to-r from-yellow-50 to-orange-50 border-2 border-yellow-200 rounded-xl p-6 mb-6">
+                                <div class="flex items-start space-x-4">
+                                    <div class="flex-shrink-0">
+                                        <div class="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center">
+                                            <svg class="w-6 h-6 text-yellow-600" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                    <div class="flex-1">
+                                        <h4 class="text-lg font-bold text-yellow-900 mb-2">Video Not Available for Download</h4>
+                                        <p class="text-yellow-800 mb-3">This pin contains only images or the video is protected and cannot be downloaded directly.</p>
+                                        <div class="text-sm text-yellow-700">
+                                            <p class="font-medium mb-1">This could be because:</p>
+                                            <ul class="list-disc list-inside space-y-1">
+                                                <li>The pin contains only static images</li>
+                                                <li>The video is DRM-protected or private</li>
+                                                <li>The content is stored on Pinterest's secure servers</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="flex space-x-4">
+                                <a 
+                                    id="pinterest-link" 
+                                    href="#" 
+                                    target="_blank" 
+                                    class="flex-1 inline-flex items-center justify-center px-6 py-4 bg-gradient-to-r from-pinterest to-pinterest-dark text-white rounded-xl hover:from-pinterest-dark hover:to-pinterest transition-all duration-300 font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+                                >
+                                    <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M12 0C5.373 0 0 5.372 0 12s5.373 12 12 12c6.628 0 12-5.372 12-12S18.628 0 12 0zm0 19c-.721 0-1.418-.109-2.073-.312.286-.465.713-1.227.87-1.835l.437-1.664c.229.436.895.804 1.604.804 2.111 0 3.633-1.941 3.633-4.354 0-2.312-1.888-4.042-4.316-4.042-3.021 0-4.625 2.003-4.625 4.137 0 .867.313 1.634.98 1.92.102.043.156.024.18-.067.018-.07.111-.448.145-.623.047-.181.029-.245-.102-.404-.359-.435-.588-1.095-.588-1.818 0-1.754 1.296-3.451 3.503-3.451 1.913 0 3.227 1.296 3.227 3.153 0 2.045-1.01 3.458-2.289 3.458-.687 0-1.2-.571-.937-1.269.314-.833.922-1.732.922-2.333 0-.538-.285-.986-.878-.986-.698 0-1.259.725-1.259 1.696 0 .618.209 1.035.209 1.035s-.706 3.017-.829 3.543c-.142.607-.098 1.407-.051 1.976-2.18-.953-3.695-3.127-3.695-5.68 0-3.427 2.573-6 6-6s6 2.573 6 6-2.573 6-6 6z"/>
+                                    </svg>
+                                    View on Pinterest
+                                </a>
+                                <button 
+                                    onclick="location.reload()" 
+                                    class="px-6 py-4 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl transition-colors font-medium flex items-center space-x-2"
+                                >
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                                    </svg>
+                                    <span>Try Another</span>
+                                </button>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="relative mt-20">
+        <!-- Background decoration -->
+        <div class="absolute inset-0 bg-gradient-to-r from-gray-50 to-blue-50 opacity-50"></div>
+        <div class="relative bg-white/80 backdrop-blur-sm border-t border-gray-200/50">
+            <div class="max-w-6xl mx-auto px-6 py-12">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
+                    <!-- Legal Info -->
+                    <div class="lg:col-span-2">
+                        <h3 class="text-lg font-bold text-gray-900 mb-4 flex items-center">
+                            <svg class="w-5 h-5 mr-2 text-pinterest" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                            </svg>
+                            Legal & Ethical Use
+                        </h3>
+                        <div class="space-y-3 text-gray-600">
+                            <p class="font-medium text-gray-800">
+                                <strong>Important:</strong> This tool is designed for personal, non-commercial use only. Users must respect creators' intellectual property rights and comply with copyright laws.
+                            </p>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
+                                <div class="flex items-start space-x-2">
+                                    <svg class="w-4 h-4 text-accent mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                    </svg>
+                                    <span>No server storage - Direct streaming</span>
+                                </div>
+                                <div class="flex items-start space-x-2">
+                                    <svg class="w-4 h-4 text-accent mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                    </svg>
+                                    <span>Privacy protected - No tracking</span>
+                                </div>
+                                <div class="flex items-start space-x-2">
+                                    <svg class="w-4 h-4 text-accent mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                    </svg>
+                                    <span>Respects Pinterest's terms of service</span>
+                                </div>
+                                <div class="flex items-start space-x-2">
+                                    <svg class="w-4 h-4 text-accent mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                    </svg>
+                                    <span>Ethical consent mechanisms</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Tool Info -->
+                    <div>
+                        <h3 class="text-lg font-bold text-gray-900 mb-4">About This Tool</h3>
+                        <div class="space-y-2 text-sm text-gray-600">
+                            <p>Professional Pinterest video downloader built with modern web technologies.</p>
+                            <div class="space-y-1">
+                                <div class="flex items-center space-x-2">
+                                    <div class="w-2 h-2 bg-brand-primary rounded-full"></div>
+                                    <span>Flask + Python Backend</span>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <div class="w-2 h-2 bg-brand-secondary rounded-full"></div>
+                                    <span>Responsive UI Design</span>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <div class="w-2 h-2 bg-accent rounded-full"></div>
+                                    <span>Secure & Fast Processing</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="border-t border-gray-200 pt-6 text-center">
+                    <p class="text-sm text-gray-500">
+                        © 2025 Pinterest Video Downloader. Built for educational and personal use. Always respect content creators and copyright laws.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
